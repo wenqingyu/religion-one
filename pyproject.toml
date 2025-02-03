@@ -7,31 +7,31 @@ readme = "README.md"
 packages = [{include = "religion_one_thinking", from = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-numpy = "^1.24.0"
-pandas = "^2.0.0"
-python-dotenv = "^1.0.0"
-httpx = "^0.25.0"
-pydantic = "^2.0.0"
-asyncio = "^3.4.3"
-rich = "^13.0.0"
+python = ">=3.10,<3.11"
+numpy = ">=1.24.0,<2.0.0"
+pandas = ">=2.0.0,<3.0.0"
+python-dotenv = ">=1.0.0,<2.0.0"
+httpx = ">=0.25.0,<0.26.0"
+pydantic = ">=2.0.0,<3.0.0"
+asyncio = ">=3.4.3,<4.0.0"
+rich = ">=13.0.0,<14.0.0"
+fastapi = ">=0.109.0,<0.110.0"
+uvicorn = ">=0.27.0,<0.28.0"
+jinja2 = ">=3.1.0,<4.0.0"
+openai = ">=1.0.0,<2.0.0"
+markdown2 = ">=2.4.0,<3.0.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.3.1"
-black = "^23.3.0"
-isort = "^5.12.0"
-flake8 = "^6.0.0"
+pytest = ">=7.3.1,<8.0.0"
+black = ">=23.3.0,<24.0.0"
+isort = ">=5.12.0,<6.0.0"
+flake8 = ">=6.0.0,<7.0.0"
 
 [tool.poetry.group.ml.dependencies]
 torch = { version = "^2.0.0", optional = true }
 
-[[tool.poetry.source]]
-name = "mirrors"
-url = "https://pypi.tuna.tsinghua.edu.cn/simple/"
-priority = "primary"
-
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
@@ -44,4 +44,5 @@ profile = "black"
 multi_line_output = 3
 
 [tool.poetry.scripts]
-religion-one = "religion_one_thinking.main:main" 
+religion-one = "religion_one_thinking.main:main"
+religion-one-viz = "religion_one_thinking.visualization.run_server:main" 

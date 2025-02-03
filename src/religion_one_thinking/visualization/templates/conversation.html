@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Religion One - Conversation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <meta http-equiv="refresh" content="30">
+    <style>
+        .chat-message {
+            margin-bottom: 1.5rem;
+        }
+        .prose {
+            max-width: none;
+            color: #374151;
+        }
+        .prose pre {
+            background: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        .prose code {
+            background: #f3f4f6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+        }
+        .prose ul, .prose ol {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .prose ul {
+            list-style-type: disc;
+        }
+        .prose ol {
+            list-style-type: decimal;
+        }
+        .prose p {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="max-w-4xl mx-auto p-6">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Religion One - Conversation</h1>
+            <div class="flex gap-4">
+                <a href="/conversation/export" 
+                   class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    Export Markdown
+                </a>
+                <a href="/" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                    View Dashboard
+                </a>
+            </div>
+        </div>
+        
+        <div class="space-y-6">
+            {% for conv in conversations %}
+            <div class="chat-message bg-white rounded-lg shadow p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <span class="font-semibold text-lg">{{ conv.thinker }}</span>
+                        <span class="text-gray-500 text-sm ml-2">{{ conv.timestamp.split('T')[1].split('.')[0] }}</span>
+                    </div>
+                    <span class="text-sm text-gray-500">Round {{ conv.metadata.round }}</span>
+                </div>
+                
+                {% if conv.get('error_html') %}
+                <div class="prose text-red-600 bg-red-50 rounded p-3">
+                    {{ conv.error_html | safe }}
+                </div>
+                {% endif %}
+                
+                {% if conv.get('response_html') %}
+                <div class="prose">
+                    {{ conv.response_html | safe }}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html> 

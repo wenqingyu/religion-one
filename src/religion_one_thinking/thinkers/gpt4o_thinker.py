@@ -1,23 +1,18 @@
-from .base_thinker import BaseThinker, Message
-import httpx
+from .base_thinker import BaseThinker
 
-class GPT4OThinker(BaseThinker):
-    def __init__(self, api_key: str):
-        super().__init__("GPT-4o Thinker", api_key)
-        self.model = "openai/o1"
+class GPT4Thinker(BaseThinker):
+    """GPT Thinker implementation."""
+    
+    def __init__(self, api_key: str, max_rounds: int = BaseThinker.DEFAULT_ROUNDS):
+        super().__init__(name="GPT-4", api_key=api_key, max_rounds=max_rounds)
+        self.model = "openai/o1"  # Updated to o1 model
         
     async def think(self, prompt: str) -> str:
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                "https://openrouter.ai/api/v1/chat/completions",
-                headers={
-                    "Authorization": f"Bearer {self.api_key}",
-                    "HTTP-Referer": "http://localhost:8000",
-                    "X-Title": "AI Religion Discussion"
-                },
-                json={
-                    "model": self.model,
-                    "messages": [{"role": "user", "content": prompt}]
-                }
-            )
-            return response.json()["choices"][0]["message"]["content"] 
+        """Generate thoughts using GPT."""
+        self.add_to_history("user", prompt)
+        messages = [{"role": msg.role, "content": msg.content} 
+                   for msg in self.conversation_history]
+        
+        response = await self._make_request(messages)
+        self.add_to_history("assistant", response)
+        return response 

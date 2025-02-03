@@ -1,7 +1,7 @@
 from datetime import datetime
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 class ConversationLogger:
     """Logger for AI thinking conversations."""
@@ -13,15 +13,18 @@ class ConversationLogger:
     def log_conversation(self, 
                         thinker_name: str, 
                         prompt: str, 
-                        response: str,
+                        response: Optional[str] = None,
+                        error: Optional[str] = None,
                         metadata: Dict[str, Any] = None):
-        """Log a conversation entry with metadata."""
+        """Log a conversation entry with metadata and possible errors."""
         timestamp = datetime.now().isoformat()
         log_entry = {
             "timestamp": timestamp,
             "thinker": thinker_name,
             "prompt": prompt,
+            "success": error is None,
             "response": response,
+            "error": error,
             "metadata": metadata or {}
         }
         

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Religion One - Thinking Visualization</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta http-equiv="refresh" content="30">
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Religion One - AI Thinking Visualization</h1>
+            <a href="/conversation" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
+                View Conversation
+            </a>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-8">
+            {% for round_num in rounds %}
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4">Round {{ round_num }}</h2>
+                <div class="grid grid-cols-3 gap-4">
+                    {% for conv in rounds[round_num] %}
+                    <div class="border rounded p-4 {% if not conv.success %}bg-red-50{% endif %}">
+                        <h3 class="text-xl font-semibold mb-2">{{ conv.thinker }}</h3>
+                        <div class="text-gray-600 mb-4">
+                            <p class="font-medium">Model: {{ conv.metadata.model }}</p>
+                            <p>Time: {{ conv.timestamp }}</p>
+                        </div>
+                        <div class="prose">
+                            <h4 class="font-medium">{% if conv.success %}Response{% else %}Error{% endif %}:</h4>
+                            <p class="whitespace-pre-wrap {% if not conv.success %}text-red-600{% endif %}">
+                                {{ conv.response if conv.success else conv.error }}
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html> 
